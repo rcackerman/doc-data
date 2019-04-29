@@ -1,7 +1,7 @@
 /****** Script for selecting NYSIDs to send to DOC  ******/
 
 SELECT DISTINCT
-	[nam_NYSID] AS NYSID
+	REPLICATE('0', (9-len(nam_NYSID))) + nam_NYSID AS NYSID
 FROM [NYPDCMS].[dbo].[Fil_Names]
 WHERE EXISTS (
 	SELECT 1
@@ -16,4 +16,6 @@ WHERE EXISTS (
             AND [Fil_Cases].[cas_Case_Detail] = 'Felony')
 	)
 )
+AND nam_NYSID != ''
+AND nam_NYSID is not null
 ;
