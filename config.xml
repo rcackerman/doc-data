@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+	<host></host>
+	<dbName></dbName>
+</database>
+<sftp>
+	<HostName></HostName>
+	<Destination></Destination>
+</sftp>
