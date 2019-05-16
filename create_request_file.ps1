@@ -8,3 +8,8 @@ $sqlParams = @{ HostName = "PDCMS2"
 
 # Query for NYSIDs returns data, then pipe to the outfile in ascii format
 Invoke-Sqlcmd @sqlParams -AbortOnError -InputFile $infileName | Out-File -FilePath $outfileName -Encoding ascii
+
+# Importing CSV of NYSIDs, then removing the header line and all trailing whitespace
+$nysids = Get-Content $outfileName
+$cleanedNysids = ( Get-Content $outfileName | Select-Object -Skip 4 ) | Foreach {$_.TrimEnd()}
+Set-Content -Value $cleanedNysids -Path $outfileName
