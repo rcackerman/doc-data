@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<database>
-	<host></host>
-	<dbName></dbName>
-</database>
-<sftp>
-	<HostName></HostName>
-	<Destination></Destination>
-</sftp>
+<config>
+	<database>
+		<host>host name</host>
+		<dbName>database name</dbName>
+	</database>
+	<sftp>
+		<HostName>remote server address</HostName>
+		<SFTPRequestFolder>folder on the remote server</SFTPRequestFolder>
+		<SFTPResponseFolder>folder on the remote server</SFTPResponseFolder>
+	</sftp>
+</config>
