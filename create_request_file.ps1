@@ -2,7 +2,7 @@ $DOCPath = $PSScriptRoot
 $config = ([xml](Get-Content (Join-Path -Path $DOCPath -ChildPath "config.xml"))).config
 $RequestsFolder = Join-Path -Path $DOCPath -ChildPath "requests"
 $infileName = Join-Path -Path $DOCPath -ChildPath "request.sql"
-$outfileName = Join-Path -Path $RequestsFolder -ChildPath "NYCOUNTY_REQUEST_$((Get-Date).toString("yyyyMMdd")).csv"
+$outfileName = Join-Path -Path $RequestsFolder -ChildPath "NYCOUNTY_REQUEST_$((Get-Date).toString("yyyyMMddHHmm")).csv"
 
 $sqlParams = @{ Host = $config.database.host
                 Database = $config.database.dbname }
