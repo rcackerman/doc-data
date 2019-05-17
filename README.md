@@ -14,7 +14,9 @@ This script set is designed to be run on a Windows machine. To install and run s
 
 ##### Install
 
-[Download repo](https://github.com/rcackerman/doc-data/archive/master.zip) or clone
+[Download repo](https://github.com/rcackerman/doc-data/archive/master.zip) or clone.
+
+Rename `example-config.xml` to `config.xml` and fill in the variables.
 
 In Task Scheduler, add the request task:
 
