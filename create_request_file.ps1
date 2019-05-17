@@ -1,8 +1,8 @@
 $DOCPath = $PSScriptRoot
-$config = ([xml](Get-Content (Join-Path -Path $DOCPath -ChildPath "config.xml"))).config
-$RequestsFolder = Join-Path -Path $DOCPath -ChildPath "requests"
-$infileName = Join-Path -Path $DOCPath -ChildPath "request.sql"
-$outfileName = Join-Path -Path $RequestsFolder -ChildPath "NYCOUNTY_REQUEST_$((Get-Date).toString("yyyyMMddHHmm")).csv"
+$config = ([xml](Get-Content (Join-Path $DOCPath "config.xml"))).config
+$RequestsFolder = Join-Path $DOCPath "requests"
+$infileName = Join-Path $DOCPath "request.sql"
+$outfileName = Join-Path $RequestsFolder "NYCOUNTY_REQUEST_$((Get-Date).toString("yyyyMMddHHmm")).csv"
 
 $sqlParams = @{ Host = $config.database.host
                 Database = $config.database.dbname }
@@ -13,7 +13,7 @@ Invoke-Sqlcmd @sqlParams -AbortOnError -InputFile $infileName | Out-File -FilePa
 # Importing CSV of NYSIDs, then removing the header line and all trailing whitespace
 $nysids = Get-Content $outfileName
 $cleanedNysids = ( Get-Content $outfileName | Select-Object -Skip 4 ) | Foreach {$_.TrimEnd()}
-Set-Content -Value $cleanedNysids -Path $outfileName
+Set-Content -Value $cleanedNysids $outfileName
 
 # Convert CRLFs to LFs only.
 # Note:
