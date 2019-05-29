@@ -4,28 +4,28 @@ $RequestsFolder = Join-Path $DOCPath "requests"
 $ResponseFolder = Join-Path $DOCPath "responses"
 $infilePath = Join-Path $DOCPath "request.sql"
 $outfilePath = Join-Path $RequestsFolder "NYCOUNTY_REQUEST_$((Get-Date).toString("yyyyMMddHHmm")).csv"
-$logPath = Join-Path $DOCPath "debug.log"
+#$debugLogPath = Join-Path $DOCPath "debug.log"
+#$logPath = Join-Path $DOCPath "winscp.log"
 
 $config = ([xml](Get-Content (Join-Path $DOCPath "config.xml"))).config
 
-$username = System.Management.Automation.PSCredential $config.sftp.Username
 $password = ConvertTo-SecureString $config.sftp.Password -AsPlainText -Force
-$credential = New-Object $username, $password
+$credential = New-Object System.Management.Automation.PSCredential $config.sftp.Username, $password
 
 $sqlParams         = @{ Host           = $config.database.host
                         Database       = $config.database.dbname }
 $sftpOptionParams  = @{ Hostname       = $config.sftp.HostName
-                        Protocol       = Sftp
+                        Protocol       = "Sftp"
                         Credential     = $credential }
-$sftpSsnParams     = @{ DebugLogLevel  = 2
-                        DebugLogPath   = $logPath
-                        SessionLogPath = $logPath }
+#$sftpSsnParams     = @{ DebugLogLevel  = 2
+#                        DebugLogPath   = $logPath
+#                        SessionLogPath = $logPath }
 
 ###
 # Generate Request File
 
 # Create the outfile in ascii format
-$nysids = Invoke-Sqlcmd @sqlParams -AbortOnError -InputFile $infileName
+$nysids = Invoke-Sqlcmd @sqlParams -AbortOnError -InputFile $infilePath
 Out-File -FilePath $outfilePath -InputObject $nysids -Encoding ascii
 
 # Importing CSV of NYSIDs, then removing the header line and all trailing whitespace
@@ -50,7 +50,8 @@ Set-Content $outfilePath -Encoding Ascii -Value $text
 # Upload request file
 
 # Start the SFTP session
-New-WinSCPSession -SessionOption (New-WinSCPSessionOption @sftpParams -GiveUpSecurityAndAcceptAnySshHostKey)
+$sessionOption = New-WinSCPSessionOption @sftpOptionParams -GiveUpSecurityAndAcceptAnySshHostKey
+New-WinSCPSession -SessionOption $sessionOption #@sftpSsnParams
 
 # Remove old files
 Remove-WinSCPItem -Path (Join-Path $config.sftp.SFTPResponseFolder "*.csv") 
