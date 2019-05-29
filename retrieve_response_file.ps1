@@ -21,7 +21,7 @@ New-WinSCPSession -SessionOption $sessionOption
 
 # Retrieve items from the SFTP folder
 # Removes the response file from the SFTP folder after retrieval
-Receive-WinSCPItem -LocalPath -RemotePath $config.sftp.SFTPRequestFolder -LocalPath $ResponseFolder -Remove
+Receive-WinSCPItem -RemotePath $config.sftp.SFTPRequestFolder -LocalPath $ResponseFolder -Remove
 
 Remove-WinSCPSession
 # End the SFTP session
