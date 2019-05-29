@@ -1,20 +1,27 @@
 $DOCPath = $PSScriptRoot
-$config = ([xml](Get-Content (Join-Path -Path $DOCPath -ChildPath "config.xml"))).config
-$ResponsesFolder = Join-Path $DOCPath "responses"
 
-$credential = Get-Credential
-$sessionOption = New-WinSCPSessionOption -HostName $config.sftp.HostName -Protocol Sftp -Credential $credential
+$RequestsFolder = Join-Path $DOCPath "requests\"
+$ResponseFolder = Join-Path $DOCPath "responses\"
 
-##
-# Start the SFTP session
+$config = ([xml](Get-Content (Join-Path $DOCPath "config.xml"))).config
+
+$password = ConvertTo-SecureString $config.sftp.Password -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential $config.sftp.Username, $password
+
+$sqlParams         = @{ Host           = $config.database.host
+                        Database       = $config.database.dbname }
+$sftpOptionParams  = @{ Hostname       = $config.sftp.HostName
+                        Protocol       = "Sftp"
+                        Credential     = $credential }
+
+###
+# Upload request file
+$sessionOption = New-WinSCPSessionOption @sftpOptionParams -GiveUpSecurityAndAcceptAnySshHostKey
 New-WinSCPSession -SessionOption $sessionOption
 
 # Retrieve items from the SFTP folder
-Send-WinSCPItem -Path $RequestFileName -Destination $config.sftp.SFTPRequestFolder
-
-# Clear out folder
-Remove-WinSCPItem -Path (Join-Path $config.sftp.SFTPRequestFolder "*.csv")
-
+# Removes the response file from the SFTP folder after retrieval
+Receive-WinSCPItem -LocalPath -RemotePath $config.sftp.SFTPRequestFolder -LocalPath $ResponseFolder -Remove
 
 Remove-WinSCPSession
 # End the SFTP session
