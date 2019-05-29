@@ -53,8 +53,8 @@ Set-Content $outfilePath -Encoding Ascii -Value $text
 $sessionOption = New-WinSCPSessionOption @sftpOptionParams -GiveUpSecurityAndAcceptAnySshHostKey
 New-WinSCPSession -SessionOption $sessionOption #@sftpSsnParams
 
-# Remove old files
-Remove-WinSCPItem -Path (Join-Path $config.sftp.SFTPResponseFolder "*.csv") 
+# Remove old request files
+Remove-WinSCPItem -Path (Join-Path $config.sftp.SFTPRequestFolder "*.csv") 
 # Upload new request file
 Send-WinSCPItem -Path $RequestFileName -Destination $config.sftp.SFTPRequestFolder
 
