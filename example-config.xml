@@ -6,6 +6,8 @@
 	</database>
 	<sftp>
 		<HostName>remote server address</HostName>
+		<Username>username for sftp</Username>
+		<Password>password for sftp</Password>
 		<SFTPRequestFolder>folder on the remote server</SFTPRequestFolder>
 		<SFTPResponseFolder>folder on the remote server</SFTPResponseFolder>
 	</sftp>
