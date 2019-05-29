@@ -21,13 +21,19 @@ Rename `example-config.xml` to `config.xml` and fill in the variables.
 In Task Scheduler, add the request task:
 
 1. Name it something.
-2. Create a new trigger to schedule the task (per DOC, it is set to 7am).
-3. Add the action.
+2. Set the task to run whether the user is logged on or not.
+3. Create a new trigger to schedule the task (per DOC, it is set to 7am).
+4. Add the action.
 	* `Program/script` will be `Powershell.exe`, with `-File "<path>\create_request_file.ps1"` as the argument.
+
+**Note**: The user running the task will need to have the correct ssh key to access to the SFTP server.
 
 In Task Scheduler, add the response task:
 
 1. Name it something.
-2. Create a new trigger to schedule the task (per DOC, this should be after 9am).
-3. Add the action.
+2. Set the task to run whether the user is logged on or not.
+3. Create a new trigger to schedule the task (per DOC, this should be after 9am).
+4. Add the action.
 	* `Program/script` will be `Powershell.exe`, with `-File "<path>\retrieve_response_file.ps1"` as the argument.
+	
+**Note**: The user running the task will need to have the correct ssh key to access to the SFTP server.
