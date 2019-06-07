@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<database>
-		<host>host name</host>
-		<dbName>database name</dbName>
+		<host></host>
+		<dbName></dbName>
 	</database>
 	<sftp>
-		<HostName>remote server address</HostName>
-		<Username>username for sftp</Username>
-		<Password>password for sftp</Password>
-		<SFTPRequestFolder>folder on the remote server</SFTPRequestFolder>
-		<SFTPResponseFolder>folder on the remote server</SFTPResponseFolder>
+		<HostName></HostName>
+        <Username></Username>
+        <Password></Password>
+        <SshHostKey></SshHostKey>
+        <SshPrivateKeyPath></SshPrivateKeyPath>
+        <SshPrivateKeyPassphrase></SshPrivateKeyPassphrase>
+		<SFTPRequestFolder></SFTPRequestFolder>
+		<SFTPResponseFolder></SFTPResponseFolder>
 	</sftp>
 </config>
